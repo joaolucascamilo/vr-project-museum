@@ -6,11 +6,13 @@
     <script src="https://unpkg.com/aframe-environment-component@1.3.3/dist/aframe-environment-component.min.js"></script>
   </head>
   <body>
-    <a-scene>
+    <a-scene renderer="colorManagement: true; exposure: 1.2; physicallyCorrectLights: true;">
 
-      <a-entity light="type: ambient; color: #BBB; intensity: 0.5"></a-entity>
+      <a-entity light="type: ambient; color: #FFF; intensity: 0.8"></a-entity>
       
-      <a-entity light="type: directional; color: #FFF; intensity: 0.8; castShadow: true" position="-0.5 1 1"></a-entity>
+      <a-entity light="type: directional; color: #FFF; intensity: 2.0; castShadow: true" position="-1 2 1"></a-entity>
+
+      <a-entity light="type: directional; color: #d1e8ff; intensity: 0.8" position="1 2 -1"></a-entity>
 
       <a-entity environment="preset: starry; groundColor: #445; grid: none"></a-entity>
 
@@ -91,66 +93,107 @@
         </a-text>
       </a-entity>
 
-      <a-box position="0 1.6 -4.9" width="2" height="2" depth="0.1" color="#333"></a-box>
-      <a-plane 
-        position="0 1.6 -4.84" 
-        width="1.8" 
-        height="1.8" 
-        src="#elizabeth-valois-img"></a-plane>
+      <a-entity class="interativo" position="0 1.6 -4.9">
+        
+        <a-box width="2" height="2" depth="0.1" color="#333" position="0 0 0"></a-box>
+        
+        <a-plane 
+          width="1.8" 
+          height="1.8" 
+          src="#elizabeth-valois-img"
+          position="0 0 0.06">
+        </a-plane>
 
-      <a-box position="-4.9 2 0" rotation="0 90 0" width="2" height="2" depth="0.1" color="#333"></a-box>
-      <a-plane 
-        position="-4.8 2 0" 
-        rotation="0 90 0" 
-        width="1.8" 
-        height="1.8" 
-        src="#moca-brinco-perola-img">
-      </a-plane>
+        <a-entity class="info-modal" position="0 -1.3 0.1" visible="false" scale="0.1 0.1 0.1">
+           <a-plane color="#000" opacity="0.8" width="2.6" height="0.6"></a-plane>
+           <a-text 
+             value="Pintura a Oleo de Isabel de Valois\nRainha da Espanha (1559)\n Utilizando colar de diamantes" 
+             align="center" 
+             color="#FFF" 
+             width="2.9" 
+             position="0 0 0.02">
+           </a-text>
+        </a-entity>
+
+      </a-entity>
+
+      <a-entity class="interativo" position="-4.9 2 0" rotation="0 90 0">
+
+        <a-box width="2" height="2" depth="0.1" color="#333" position="0 0 0"></a-box>
+        
+        <a-plane 
+          width="1.8" 
+          height="1.8" 
+          src="#moca-brinco-perola-img"
+          position="0 0 0.06"> </a-plane>
+
+        <a-entity class="info-modal" position="2.5 1.1 0.3" visible="false" scale="0.1 0.1 0.1">
+           <a-plane color="#000" opacity="0.8" width="2.6" height="0.8"></a-plane>
+           <a-text 
+             value="Moça com Brinco de Perola\nObra-prima do barroco holandes\nFoco na iluminacao realista." 
+             align="center" 
+             color="#FFF" 
+             width="2.8" 
+             position="0 0 0.02">
+           </a-text>
+        </a-entity>
+
+      </a-entity>
       <a-text value="Johannes Vermeer, c. 1665" position="-4.8 0.8 0" rotation="0 90 0" align="center" color="white"></a-text>
+      
+      <a-entity class="interativo" position="4 2.1 0" rotation="0 -90 0">
 
-      <a-box position="4 2.1 0" rotation="0 90 0" width="2" height="2" depth="0.1" color="#333"></a-box>
-      <a-plane 
-        position="3.94 2.1 0" 
-        rotation="0 -90 0" 
-        width="1.8" 
-        height="1.8" 
-        src="#coroa-img">
-      </a-plane>
+        <a-box width="2" height="2" depth="0.1" color="#333" position="0 0 0"></a-box>
+        
+        <a-plane 
+          width="1.8" 
+          height="1.8" 
+          src="#coroa-img" 
+          position="0 0 0.06"> </a-plane>
+
+        <a-entity class="info-modal" position="-2.3 0.8 0.3" visible="false" scale="0.1 0.1 0.1">
+           <a-plane color="#000" opacity="0.8" width="2.7" height="0.8"></a-plane>
+           <a-text 
+             value="Replica da Coroa imperial russa\nEncomendada por Catarina II para sua coroacao em 1762.\n4.936 diamantes e 37 perolas naturais de cada lado" 
+             align="center" 
+             color="#FFF" 
+             width="2.8" 
+             position="0 0 0.02">
+           </a-text>
+        </a-entity>
+
+      </a-entity>
       
     </a-scene>
     <script>
-      // Aguarda o carregamento da página
       document.addEventListener('DOMContentLoaded', () => {
-        
-        // Seleciona todos os elementos com a classe "interativo"
         const items = document.querySelectorAll('.interativo');
 
         items.forEach(item => {
-          // Busca o modal dentro do item
           const modal = item.querySelector('.info-modal');
-
-          // Se não tiver modal configurado, ignora
           if (!modal) return;
+          
+          // Variável para controlar o timer e evitar bugs se olhar rápido
+          let hideTimeout;
 
-          // Evento: Mouse Entra (Olhar)
           item.addEventListener('mouseenter', () => {
+            // Se tiver um fechamento agendado, cancela ele (o usuário voltou a olhar)
+            clearTimeout(hideTimeout);
+            
             modal.setAttribute('visible', 'true');
-            // Animação pop-up (cresce de 0.1 para 1)
             modal.setAttribute('animation', 'property: scale; to: 1 1 1; dur: 200; easing: easeOutQuad');
           });
 
-          // Evento: Mouse Sai (Parar de olhar)
           item.addEventListener('mouseleave', () => {
-            // Animação pop-out (diminui)
-            modal.setAttribute('animation', 'property: scale; to: 0.1 0.1 0.1; dur: 200; easing: easeInQuad');
-            
-            // Aguarda a animação acabar para esconder (200ms)
-            setTimeout(() => {
-               // Verifica se ainda não está sendo olhado (para evitar piscar)
-               if (!item.is("cursor-hovered")) { 
-                 modal.setAttribute('visible', 'false');
-               }
-            }, 200);
+            // AQUI ESTÁ O SEGREDO: 3000ms = 3 segundos de espera
+            hideTimeout = setTimeout(() => {
+               modal.setAttribute('animation', 'property: scale; to: 0.1 0.1 0.1; dur: 200; easing: easeInQuad');
+               
+               // Espera a animação de encolher acabar para ficar invisível
+               setTimeout(() => {
+                   modal.setAttribute('visible', 'false');
+               }, 200); 
+            }, 3000); 
           });
         });
       });
