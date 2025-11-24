@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Museu Virtual</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.3.3/dist/aframe-environment-component.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+
+      <a-entity light="type: ambient; color: #BBB; intensity: 0.5"></a-entity>
+      
+      <a-entity light="type: directional; color: #FFF; intensity: 0.8; castShadow: true" position="-0.5 1 1"></a-entity>
+
+      <a-entity environment="preset: starry; groundColor: #445; grid: none"></a-entity>
+
+      <a-entity id="rig" position="0 1.6 0">
+        <a-camera look-controls wasd-controls>
+            <a-cursor color="yellow" scale="0.5 0.5 0.5"></a-cursor>
+        </a-camera>
+      </a-entity>
+
+      <a-box position="0 2 -5" width="10" height="4" depth="0.1" color="#7BC8A4"></a-box>
+      <a-box position="-5 2 0" rotation="0 90 0" width="10" height="4" depth="0.1" color="#7BC8A4"></a-box>
+      <a-box position="5 2 0" rotation="0 90 0" width="10" height="4" depth="0.1" color="#7BC8A4"></a-box>
+
+      <a-cylinder position="-2.4 0.5 -3" radius="0.5" height="1" color="#FFC65D"></a-cylinder>
+      <a-cylinder position="2.4 0.5 -3" radius="0.5" height="1" color="#FFC65D"></a-cylinder>
+      <a-cylinder position="-3 0.5 2" radius="0.4" height="1" color="#FFC65D"></a-cylinder>
+      <a-cylinder position="3 0.5 2.3" radius="0.4" height="1" color="#FFC65D"></a-cylinder>
+      
+      <a-assets>
+        <a-asset-item id="pedregulho-model" src="assets/pedra1.gltf"></a-asset-item>
+        <a-asset-item id="pedra-lua-model" src="assets/moon_rock_01_4k.gltf"></a-asset-item>
+        <a-asset-item id="namaqualand-model" src="assets/namaqualand_boulder_03_4k.gltf"></a-asset-item>
+        <a-asset-item id="golden-model" src="assets/fine_gold_bar.gltf"></a-asset-item>
+        <img id="moca-brinco-perola-img" src="assets/imagens/quadro1.jpg">
+        <img id="elizabeth-valois-img" src="assets/imagens/Elizabeth.of.Valois.JPG">
+        <img id="coroa-img" src="assets/imagens/Coroa.jpg">
+      </a-assets>
+
+    <a-entity class="interativo" position="-2.4 1.5 -3"></a-entity>
+      <a-gltf-model 
+        src="#pedregulho-model" 
+        position="-2.4 1.5 -3" 
+        scale="1 1 1"
+        animation="property: rotation; to: 0 360 0; loop: true; dur: 20000; easing: linear">
+      </a-gltf-model>
+
+      <a-entity class="info-modal" position="0 1.2 0" visible="false" scale="0.1 0.1 0.1">
+        <a-plane color="#000" opacity="0.8" width="1.5" height="0.8" rotation="0 0 0"></a-plane>
+        <a-text value="Pedra Basalto\nOrigem: Vulcanica\nAno: 2023" align="center" color="#FFF" width="2.5" position="0 0 0.02"></a-text>
+      </a-entity>
+    </a-entity>  
+
+      <a-gltf-model 
+        src="#pedra-lua-model" 
+        position="2.4 1.5 -3" 
+        scale="10 10 10"
+        animation="property: rotation; to: 0 360 0; loop: true; dur: 20000; easing: linear">
+      </a-gltf-model>
+
+      <a-gltf-model 
+        src="#golden-model" 
+        position="-3 1.5 2" 
+        scale="0.3 0.3 0.3"
+        animation="property: rotation; to: 0 360 0; loop: true; dur: 25000; easing: linear">
+      </a-gltf-model>
+
+      <a-gltf-model
+       src="#namaqualand-model" 
+       position="4 1.0 3" 
+       scale="0.8 0.8 0.8"
+       animation="property: rotation; to: 0 360 0; loop: true; dur: 25000; easing: linear">
+      </a-gltf-model>  
+
+      <a-entity position="0 3.4 -4.9">
+        
+        <a-box width="4.2" height="1.0" depth="0.05" color="#FFD700" position="0 0 -0.02"
+               material="metalness: 0.8; roughness: 0.2"></a-box>
+
+        <a-box width="4.0" height="0.8" depth="0.05" color="#1a1a1a"
+               material="metalness: 0.6; roughness: 0.3"></a-box>
+
+        <a-text value="MUSEU DE PEDRAS PRECIOSAS" 
+                align="center" 
+                color="#FFD700" 
+                width="4"
+                position="0 0 0.06"
+                material="metalness: 1; roughness: 0.1">
+        </a-text>
+      </a-entity>
+
+      <a-box position="0 1.6 -4.9" width="2" height="2" depth="0.1" color="#333"></a-box>
+      <a-plane 
+        position="0 1.6 -4.84" 
+        width="1.8" 
+        height="1.8" 
+        src="#elizabeth-valois-img"></a-plane>
+
+      <a-box position="-4.9 2 0" rotation="0 90 0" width="2" height="2" depth="0.1" color="#333"></a-box>
+      <a-plane 
+        position="-4.8 2 0" 
+        rotation="0 90 0" 
+        width="1.8" 
+        height="1.8" 
+        src="#moca-brinco-perola-img">
+      </a-plane>
+      <a-text value="Johannes Vermeer, c. 1665" position="-4.8 0.8 0" rotation="0 90 0" align="center" color="white"></a-text>
+
+      <a-box position="4 2.1 0" rotation="0 90 0" width="2" height="2" depth="0.1" color="#333"></a-box>
+      <a-plane 
+        position="3.94 2.1 0" 
+        rotation="0 -90 0" 
+        width="1.8" 
+        height="1.8" 
+        src="#coroa-img">
+      </a-plane>
+      
+    </a-scene>
+    <script>
+      // Aguarda o carregamento da página
+      document.addEventListener('DOMContentLoaded', () => {
+        
+        // Seleciona todos os elementos com a classe "interativo"
+        const items = document.querySelectorAll('.interativo');
+
+        items.forEach(item => {
+          // Busca o modal dentro do item
+          const modal = item.querySelector('.info-modal');
+
+          // Se não tiver modal configurado, ignora
+          if (!modal) return;
+
+          // Evento: Mouse Entra (Olhar)
+          item.addEventListener('mouseenter', () => {
+            modal.setAttribute('visible', 'true');
+            // Animação pop-up (cresce de 0.1 para 1)
+            modal.setAttribute('animation', 'property: scale; to: 1 1 1; dur: 200; easing: easeOutQuad');
+          });
+
+          // Evento: Mouse Sai (Parar de olhar)
+          item.addEventListener('mouseleave', () => {
+            // Animação pop-out (diminui)
+            modal.setAttribute('animation', 'property: scale; to: 0.1 0.1 0.1; dur: 200; easing: easeInQuad');
+            
+            // Aguarda a animação acabar para esconder (200ms)
+            setTimeout(() => {
+               // Verifica se ainda não está sendo olhado (para evitar piscar)
+               if (!item.is("cursor-hovered")) { 
+                 modal.setAttribute('visible', 'false');
+               }
+            }, 200);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
