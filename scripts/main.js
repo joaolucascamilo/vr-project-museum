@@ -45,24 +45,27 @@ document.addEventListener('DOMContentLoaded', () => {
   const loadingBar = document.querySelector('#loading-bar');
   let portaTimer;
 
-  if (porta && loadingBar) {
-    // 1. Quando o usuário olha para a porta
+  // --- LÓGICA DA PORTA ATUALIZADA PARA VR (FUSE) ---
+  
+  if (porta) {
+    // 1. Efeito Visual: Quando olhar, enche a barra em 1.5s (mesmo tempo do cursor)
     porta.addEventListener('mouseenter', () => {
-      // Inicia animação da barra de progresso (cresce em 4000ms)
-      loadingBar.setAttribute('animation', 'property: scale; to: 1 1 1; dur: 4000; easing: linear');
-      // Inicia a contagem para abrir
-      portaTimer = setTimeout(() => {
-        abrirPortaENavegar(porta);
-      }, 4000); // 4 segundos
+      if (loadingBar) {
+        loadingBar.setAttribute('animation', 'property: scale; to: 1 1 1; dur: 1500; easing: linear');
+      }
     });
 
-    // 2. Se o usuário desviar o olhar antes dos 4s
+    // 2. Cancelamento: Se desviar o olhar, zera a barra
     porta.addEventListener('mouseleave', () => {
-      // Cancela o timer
-      clearTimeout(portaTimer);
-      // Reseta a barra de progresso (remove animação e volta escala a 0)
-      loadingBar.removeAttribute('animation');
-      loadingBar.setAttribute('scale', '0 1 1');
+      if (loadingBar) {
+        loadingBar.removeAttribute('animation');
+        loadingBar.setAttribute('scale', '0 1 1');
+      }
+    });
+
+    // 3. Ação: Quando o cursor "explodir" (clicar) após 1.5s, abre a porta
+    porta.addEventListener('click', () => {
+      abrirPortaENavegar(porta);
     });
   }
 
@@ -109,16 +112,55 @@ document.addEventListener('DOMContentLoaded', () => {
       quadro.setAttribute('material', 'emissive: #000; emissiveIntensity: 0');
     });
   });
+
+
+  // --- SISTEMA DE TELETRANSPORTE ---
+
+  const rig = document.querySelector('#rig');
+  const waypoints = document.querySelectorAll('.teleporte');
+
+  waypoints.forEach(ponto => {
+    // Animação visual ao passar o mouse (feedback)
+    ponto.addEventListener('mouseenter', () => {
+      ponto.setAttribute('color', '#00FFFF'); // Muda cor para Ciano
+      ponto.setAttribute('scale', '1.2 1.2 1.2'); // Aumenta um pouco
+    });
+
+    ponto.addEventListener('mouseleave', () => {
+      ponto.setAttribute('color', '#FFFF00'); // Volta para Amarelo
+      ponto.setAttribute('scale', '1 1 1');
+    });
+
+    // Ação de clicar (ou fusão do olhar se usar fuse) para mover
+    ponto.addEventListener('click', () => {
+      
+      const posDestino = ponto.getAttribute('position');
+      const posAtual = rig.getAttribute('position');
+
+      // Cria a animação de deslize da câmera
+      // Mantemos o Y em 1.6 (altura dos olhos) ou no valor atual do rig
+      rig.setAttribute('animation', {
+        property: 'position',
+        from: `${posAtual.x} ${posAtual.y} ${posAtual.z}`,
+        to: `${posDestino.x} 1.6 ${posDestino.z}`, // Move apenas no chão
+        dur: 1500, // Demora 1.5 segundos (suave)
+        easing: 'easeInOutQuad'
+      });
+    });
+  });
+
 });
 
 function abrirPortaENavegar(portaEl) {
   // 1. Toca animação de abrir a porta (Gira 90 graus)
   portaEl.setAttribute('animation', 'property: rotation; to: 0 -90 0; dur: 1000; easing: easeOutQuad');
 
+  // Pega o link definido no HTML (data-link) ou usa um padrão
+  const destino = portaEl.getAttribute('data-link') || "internet.html";
+
   // 2. Aguarda a porta abrir (1s) e muda de página
   setTimeout(() => {
-    // AQUI VOCÊ COLOCA O LINK DO NOVO AMBIENTE
-    window.location.href = "internet.html"; // Exemplo: Substitua pelo seu link
+    window.location.href = destino; 
   }, 1000);
 }
 
