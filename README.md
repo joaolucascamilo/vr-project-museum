@@ -5,7 +5,7 @@ Uma experiência de Realidade Virtual para a Web (WebVR) desenvolvida com **A-Fr
 ## 🔗 Acesso Online
 
 **Acesse a experiência em nuvem aqui:**
-> [ **[COLE AQUI A SUA URL (Ex: https://seu-usuario.github.io/seu-repo)](https://vercel.com/joao-lucas-projects-7bc5d413/vr-project-museum)** ]
+> [ **[CLIQUE AQUI](https://vr-project-museum.vercel.app/)** ]
 
 ---
 
