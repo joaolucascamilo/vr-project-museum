@@ -109,5 +109,5 @@ A organização do projeto segue o padrão para carregamento correto de texturas
     ├── playstation.gltf
     ├── pedra1.gltf
     └── ...
-
+```
 Desenvolvido com Javascript e A-Frame.
