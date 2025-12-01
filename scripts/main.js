@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log("Código do usuário salvo:", userCode);
   }
 
+  adicionarBotaoVR();
+
   setTimeout(()=>{saveScores}, 3000)
 
   const items = document.querySelectorAll('.interativo');
@@ -212,4 +214,52 @@ function saveScores() {
       "https://upgraded-happiness-9rvrr9w9ppj3v64-3000.app.github.dev/pages/auth";
   }, 10000)
 
+}
+
+// --- FUNÇÃO PARA CRIAR BOTÃO VR PERSONALIZADO ---
+function adicionarBotaoVR() {
+  const scene = document.querySelector('a-scene');
+  
+  // Se não houver cena (erro de carregamento), não faz nada
+  if (!scene) return;
+
+  // Cria o elemento do botão
+  const btn = document.createElement('button');
+  btn.innerText = "ENTRAR EM MODO VR 🕶️";
+  btn.id = "btn-start-vr";
+  
+  // Estilização do botão via JS para não precisar mexer no CSS
+  Object.assign(btn.style, {
+    position: 'fixed',
+    bottom: '20px',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    zIndex: '9999',
+    padding: '12px 24px',
+    backgroundColor: '#00FF00', // Verde neon do seu tema
+    color: '#000',
+    border: '2px solid #FFF',
+    borderRadius: '8px',
+    fontSize: '16px',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    fontFamily: 'monospace',
+    boxShadow: '0 0 10px #00FF00'
+  });
+
+  // Ação ao clicar
+  btn.addEventListener('click', () => {
+    // Comando do A-Frame para entrar em modo estéreo/VR
+    scene.enterVR();
+    
+    // Opcional: Esconder o botão após entrar no VR
+    // btn.style.display = 'none'; 
+  });
+
+  // Opcional: Se o usuário sair do VR (ESC ou botão voltar), mostrar botão de novo
+  scene.addEventListener('exit-vr', () => {
+    btn.style.display = 'block';
+  });
+
+  document.body.appendChild(btn);
 }

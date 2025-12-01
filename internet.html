@@ -7,7 +7,9 @@
     <script src="https://unpkg.com/aframe-environment-component@1.3.3/dist/aframe-environment-component.min.js"></script>
   </head>
   <body>
-    <a-scene renderer="colorManagement: true; exposure: 1.0; far: 100;">
+    <a-scene 
+    renderer="colorManagement: true; exposure: 1.2; physicallyCorrectLights: true;"
+    vr-mode-ui="enabled: true">
       
       <a-entity environment="preset: tron; grid: 1x1; skyType: atmosphere; skyColor: #000; groundColor: #111"></a-entity>
       <a-entity light="type: ambient; color: #FFF; intensity: 0.5"></a-entity>
